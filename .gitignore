@@ -11,6 +11,9 @@
 # Bytecode
 *.py[co]
 
+# Local
+db
+
 # VirtualEnv
 GPython
 
