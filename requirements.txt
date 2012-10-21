@@ -1,9 +1,11 @@
 # Required
 django
-south
+django-celery
+pil
 scrapy
+south
 -e git+https://github.com/holgerd77/django-dynamic-scraper.git#egg=django-dynamic-scraper
 
 # Recommended
 ipython
-# ipdb
+ipdb

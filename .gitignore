@@ -15,7 +15,7 @@
 db
 
 # VirtualEnv
-GPython
+gpython
 
 # Packages
 *.egg

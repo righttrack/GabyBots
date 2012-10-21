@@ -1,5 +1,5 @@
-from scraping.models import WebContent
+from scraping.models import Article
 from scrapy.contrib_exp.djangoitem import DjangoItem
 
-class WebContentItem(DjangoItem):
-    django_model = WebContent
+class ArticleItem(DjangoItem):
+    django_model = Article

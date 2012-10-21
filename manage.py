@@ -1,0 +1,1 @@
+gbots/manage.py

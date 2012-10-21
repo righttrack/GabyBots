@@ -1,6 +1,6 @@
-from os import path
+from os.path import abspath, dirname, join
 
-PROJECT_ROOT = path.dirname(path.abspath(__file__))
+PROJECT_ROOT = abspath(join(dirname(__file__), '..'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -16,7 +16,7 @@ DATABASES = {
         # postgresql_psycopg2, postgresql, mysql, sqlite3 or oracle
         'ENGINE': 'django.db.backends.sqlite3',
         # Path to database file (if using sqlite3)
-        'NAME': path.join('db', 'gabybots.sqlite'),
+        'NAME': join(PROJECT_ROOT, 'db', 'gabybots.sqlite'),
         'USER': '',  # Not used with sqlite3.
         'PASSWORD': '',  # Not used with sqlite3.
         'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
@@ -126,6 +126,7 @@ INSTALLED_APPS = (
 
     # Plugins
     'dynamic_scraper',
+    'south',
     
     # Apps
     'scraping'
