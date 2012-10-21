@@ -6,6 +6,8 @@ Awesome Web-crawling Robotz
 Installation
 ============
 
+After you clone the repository, enter the directory and perform the following setup.
+
 1. Create a python virtual environment (optional, but recommended)
 
         $ python -m virtualenv gpython
