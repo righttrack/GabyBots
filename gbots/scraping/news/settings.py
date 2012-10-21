@@ -18,8 +18,6 @@ assert PROJECT_ROOT == settings.PROJECT_ROOT
 os.chdir(PROJECT_ROOT)
 
 ##########################################
-
-
 # Scrapy settings for scraping.news project
 #
 # All the other settings are documented here:
