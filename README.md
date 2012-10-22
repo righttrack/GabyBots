@@ -3,6 +3,7 @@ GabyBots
 
 Awesome Web-crawling Robotz
 
+
 Installation
 ============
 
@@ -29,3 +30,18 @@ After you clone the repository, enter the directory and perform the following se
 
         $ ./manage.py loaddata fixtures/starter.json
 
+
+Running A Spider
+================
+
+You can run the starter spider, which will scrape the Google News - World RSS Feed. First you must be in the gbots directory.
+
+    $ cd gbots/
+
+Then you can run scrapy.
+
+    $ scrapy crawl google-news -a id=1
+
+If you want it to add the scraped articles to the database, you would use:
+
+    $ scrapy crawl google-news -a id=1 -a do_action=yes
