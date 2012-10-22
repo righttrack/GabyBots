@@ -12,7 +12,8 @@ class DjangoWriterPipeline(object):
 
     def process_item(self, item, spider):
         try:
-            item['news_website'] = spider.ref_object
+            # This name must match Article's source
+            item['source'] = spider.ref_object
 
             checker_rt = SchedulerRuntime(runtime_type='C')
             checker_rt.save()

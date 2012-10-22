@@ -1,6 +1,9 @@
 # Required
-django
+beautifulsoup4
+django >= 1.4
 django-celery
+django-nose
+nose
 pil
 scrapy
 south

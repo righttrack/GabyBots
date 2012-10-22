@@ -40,6 +40,7 @@ class WebSource(models.Model):
 
 class Article(models.Model):
     checker_runtime = WeakForeignKey(SchedulerRuntime)
+    # This name is significant to DjangoWriterPipeline
     source = models.ForeignKey(WebSource)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)

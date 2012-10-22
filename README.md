@@ -25,3 +25,7 @@ After you clone the repository, enter the directory and perform the following se
         $ ./manage.py syncdb
         $ ./manage.py migrate
 
+5. Add a sample scraper
+
+        $ ./manage.py loaddata fixtures/starter.json
+

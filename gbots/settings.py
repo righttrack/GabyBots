@@ -2,6 +2,8 @@ from os.path import abspath, dirname, join
 
 PROJECT_ROOT = abspath(join(dirname(__file__), '..'))
 
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -104,7 +106,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'gbots.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -125,11 +127,12 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     # Plugins
+    'django_nose',
     'dynamic_scraper',
     'south',
     
     # Apps
-    'scraping'
+    'gbots.scraping'
 )
 
 # A sample logging configuration. The only tangible logging

@@ -1,25 +1,24 @@
-__author__ = 'jeffmay'
-
-from scrapy.selector import HtmlXPathSelector
+from bs4 import BeautifulSoup
+from dynamic_scraper.spiders.django_spider import DjangoSpider
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import Rule
 from scraping.news.spiders import ArticleSpider
-from scraping.news.items import ArticleItem
+from util.strings import clean_control_chars
+
+__author__ = 'jeffmay'
 
 class GoogleNewsSpider(ArticleSpider):
     name = 'google-news'
     allowed_domains = ['news.google.com']
-    start_urls = ['http://news.google.com/']
-    # https://news.google.com/news/feeds?pz=1&cf=all&ned=us&hl=en&topic=w&output=rss
+    start_urls = ['http://news.google.com/?ned=us&hl=en&output=rss']
 
     rules = (
         Rule(SgmlLinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
-        )
+    )
 
-    def parse_item(self, response, xs=None):
-        # TODO: Call super to get article?
-        hxs = HtmlXPathSelector(response)
-        i = ArticleItem()
-        i['title'] = hxs.select('//div[@class="story_headline"]/h1').extract()
-        i['description'] = hxs.select('//div[@id="description"]').extract()
-        return i
+    def parse_item(self, response, *args, **kwargs):
+        article = super(GoogleNewsSpider, self).parse_item(response, *args, **kwargs)
+        soup = BeautifulSoup(article['description'])
+        clean_description = "\n".join(clean_control_chars(string) for string in soup.stripped_strings)
+        article['description'] = clean_description
+        return article
