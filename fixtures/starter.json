@@ -53,7 +53,7 @@
       "pagination_page_replace": "", 
       "checker_ref_url": "", 
       "checker_x_path_result": "", 
-      "name": "GoogleNews Scraper", 
+      "name": "RSS Article Scraper", 
       "max_items_save": 10, 
       "checker_x_path": "", 
       "pagination_append_str": "", 
@@ -71,7 +71,7 @@
     "model": "dynamic_scraper.scraperelem", 
     "fields": {
       "proc_ctxt": "", 
-      "x_path": "//item", 
+      "x_path": "//rss/channel/item", 
       "processors": "", 
       "scraped_obj_attr": 1, 
       "scraper": 1, 
