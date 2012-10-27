@@ -7,7 +7,7 @@ from __future__ import absolute_import
 import os
 import sys
 from os.path import abspath, dirname, join
-PROJECT_ROOT = abspath(join(dirname(__file__), '..', '..', '..'))
+PROJECT_ROOT = abspath(join(dirname(__file__), '..', '..'))
 sys.path.extend([PROJECT_ROOT])
 
 import settings
