@@ -27,10 +27,27 @@ add_introspection_rules([], ["^scraping\.models\.WeakForeignKey"])
 #
 #pre_delete.connect(pre_delete_handler)
 
+class SourceModel(models.Model):
+    class Meta:
+        abstract = True
+    scraper = WeakForeignKey(Scraper)
+    scraper_runtime = WeakForeignKey(SchedulerRuntime)
+    name = models.CharField(max_length=20)
+
+
 class ScrapedItemModel(models.Model):
     class Meta:
         abstract = True
     checker_runtime = WeakForeignKey(SchedulerRuntime)
+
+
+class WebSource(SourceModel):
+    description = models.CharField(max_length=200)
+    url = models.URLField()
+
+    def __unicode__(self):
+        return self.description
+
 
 class RSSItemModel(ScrapedItemModel):
     class Meta:
@@ -43,22 +60,6 @@ class RSSItemModel(ScrapedItemModel):
     def __unicode__(self):
         return self.title
 
-class SourceModel(models.Model):
-    class Meta:
-        abstract = True
-    scraper = WeakForeignKey(Scraper)
-    scraper_runtime = WeakForeignKey(SchedulerRuntime)
-    name = models.CharField(max_length=20)
-
-
-# Custom Models
-
-class WebSource(SourceModel):
-    description = models.CharField(max_length=200)
-    url = models.URLField()
-
-    def __unicode__(self):
-        return self.description
 
 class Article(RSSItemModel):
     pass
