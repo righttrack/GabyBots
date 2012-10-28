@@ -36,7 +36,7 @@ class SourceModel(models.Model):
     scraper = WeakForeignKey(Scraper)
     scraper_runtime = WeakForeignKey(SchedulerRuntime)
     name = models.CharField(max_length=20)
-    description = models.CharField(blank=True, max_length=200)
+    description = models.CharField(max_length=200)
 
 # Custom:
 
