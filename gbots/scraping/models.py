@@ -31,11 +31,12 @@ add_introspection_rules([], ["^scraping\.models\.WeakForeignKey"])
 class WebSource(models.Model):
     scraper = WeakForeignKey(Scraper)
     scraper_runtime = WeakForeignKey(SchedulerRuntime)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=20)
+    description = models.CharField(max_length=200)
     url = models.URLField()
 
     def __unicode__(self):
-        return self.name
+        return self.description
 
 
 class Article(models.Model):
