@@ -53,7 +53,7 @@ class SourceModel(models.Model):
 
 # Custom Models
 
-class WebSource(models.Model):
+class WebSource(SourceModel):
     description = models.CharField(max_length=200)
     url = models.URLField()
 
