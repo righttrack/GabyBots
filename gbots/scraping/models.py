@@ -1,7 +1,7 @@
 from django.db import models
-from django.db.models.signals import pre_delete
-from django.dispatch import receiver
+from django.db.models import Manager
 from dynamic_scraper.models import Scraper, SchedulerRuntime
+import re
 
 
 class WeakForeignKey(models.ForeignKey):
@@ -27,39 +27,77 @@ add_introspection_rules([], ["^scraping\.models\.WeakForeignKey"])
 #
 #pre_delete.connect(pre_delete_handler)
 
+
+##### Sources ####
+
 class SourceModel(models.Model):
     class Meta:
         abstract = True
     scraper = WeakForeignKey(Scraper)
     scraper_runtime = WeakForeignKey(SchedulerRuntime)
     name = models.CharField(max_length=20)
+    description = models.CharField(blank=True, max_length=200)
 
+# Custom:
 
-class ScrapedItemModel(models.Model):
-    class Meta:
-        abstract = True
-    checker_runtime = WeakForeignKey(SchedulerRuntime)
-
+class WebSourceManager(Manager):
+    def matching(self, url):
+        matches = [source for source in self.exclude(pattern=u'')
+                   if re.match(source.pattern, url)]
+        num = len(matches)
+        if num == 1:
+            return matches[0]
+        if not num:
+            raise self.model.DoesNotExist(
+                "%s matching url (%s) does not exist."
+                % (self.model._meta.object_name, url))
+        raise self.model.MultipleObjectsReturned(
+            "url (%s) matched more than one %s -- it matched %s!"
+            % (url, self.model._meta.object_name, num))
 
 class WebSource(SourceModel):
-    description = models.CharField(max_length=200)
+    objects = WebSourceManager()
     url = models.URLField()
+    pattern = models.CharField(blank=True, max_length=200)
 
     def __unicode__(self):
         return self.description
 
 
-class RSSItemModel(ScrapedItemModel):
+##### Items ####
+
+class ScrapedItemModel(models.Model):
     class Meta:
         abstract = True
+    checker_runtime = WeakForeignKey(SchedulerRuntime)
     source = models.ForeignKey(WebSource)
+
+# Common list models
+
+class Anchor(models.Model):
+    href = models.URLField()
+    text = models.CharField(max_length=1000)
+
+class Image(models.Model):
+    src = models.URLField()
+    alt = models.CharField(max_length=1000)
+    link = models.ForeignKey(Anchor)
+
+class Section(models.Model):
+    text = models.TextField()
+
+# Custom Items:
+
+class Article(ScrapedItemModel):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     url = models.URLField()
+    content = models.TextField()
+    sections = models.ForeignKey(Section)
+    images = models.ForeignKey(Image)
+    links = models.ForeignKey(Anchor)
 
     def __unicode__(self):
         return self.title
 
 
-class Article(RSSItemModel):
-    pass
