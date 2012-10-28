@@ -43,3 +43,4 @@ ITEM_PIPELINES = [
     'scraping.news.pipelines.DjangoWriterPipeline',
 ]
 
+COMMANDS_MODULE = 'gbots.scraping.commands'
