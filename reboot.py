@@ -1,4 +1,8 @@
+
+from gbots.settings import PROJECT_ROOT
+
 __author__ = 'coleman'
+
 
 # TODO make this more Pythonic, avoid using os.system()
 
@@ -11,25 +15,25 @@ from gbots import settings
 setup_environ(settings)
 
 print '\nHardcoded dumpdata command:'
-print "./manage.py dumpdata scraping dynamic_scraper --indent=2 > fixtures/starter.json\n"
+print "./manage.py dumpdata scraping dynamic_scraper --indent=2 > " + PROJECT_ROOT + "/fixtures/starter.json\n"
 
 
 decision = raw_input('Overwrite fixture? yes/no: ')
 if decision == 'yes' or '':
-    os.system("./manage.py dumpdata scraping dynamic_scraper --indent=2 > fixtures/starter.json")
+    os.system(PROJECT_ROOT + "/manage.py dumpdata scraping dynamic_scraper --indent=2 > " + PROJECT_ROOT + "/fixtures/starter.json") 
 else:
     print 'Latest database not saved to fixture.\n'
 
 # trash old database and create new one
-os.system("rm db/gabybots.sqlite")
-os.system("./manage.py syncdb --noinput")
+os.system("rm " + PROJECT_ROOT + "/db/gabybots.sqlite")
+os.system(PROJECT_ROOT + "/manage.py syncdb --noinput")
 
 # migrate
-os.system("./manage.py migrate")
+os.system(PROJECT_ROOT + "/manage.py migrate")
 
 # load the fixtures. This will have ALL our scrapers.
 print '\nLoading the fixtures. These are our scrapers.'
-os.system("./manage.py loaddata ./fixtures/starter.json")
+os.system(PROJECT_ROOT + "/manage.py loaddata ./fixtures/starter.json")
 
 
 
