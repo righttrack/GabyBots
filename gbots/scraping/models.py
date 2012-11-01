@@ -35,7 +35,7 @@ class SourceModel(models.Model):
         abstract = True
     scraper = WeakForeignKey(Scraper)
     scraper_runtime = WeakForeignKey(SchedulerRuntime)
-    name = models.CharField(max_length=20)
+    alias = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
 
 # Custom:
@@ -88,10 +88,12 @@ class Section(models.Model):
 
 # Custom Items:
 
-class Article(ScrapedItemModel):
+class BaseItemModel(ScrapedItemModel):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     url = models.URLField()
+
+class Article(BaseItemModel):
     content = models.TextField()
     sections = models.ForeignKey(Section)
     images = models.ForeignKey(Image)
