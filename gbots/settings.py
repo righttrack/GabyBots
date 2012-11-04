@@ -132,7 +132,9 @@ INSTALLED_APPS = (
     'south',
     
     # Apps
-    'gbots.scraping'
+    'gbots.scraping',
+    'gbots.metrics',
+    'gbots.util',
 )
 
 # A sample logging configuration. The only tangible logging
