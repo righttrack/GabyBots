@@ -10,21 +10,21 @@ from os.path import abspath, dirname, join
 PROJECT_ROOT = abspath(join(dirname(__file__), '..', '..'))
 sys.path.extend([PROJECT_ROOT])
 
-import settings
-from django.core.management import setup_environ
-setup_environ(settings)
-
+from gbots import settings
 try:
     assert PROJECT_ROOT == settings.PROJECT_ROOT
 except AssertionError:
     raise AssertionError("Scrapy project root '%s' does not match Django project root '%s'" %
                          (PROJECT_ROOT, settings.PROJECT_ROOT))
+
+from django.core.management import setup_environ
+setup_environ(settings)
 os.chdir(PROJECT_ROOT)
 
 ####################################################
 
 
-# Scrapy settings for scraping.news project
+# Scrapy settings for gbots project
 #
 # All the other settings are documented here:
 #
