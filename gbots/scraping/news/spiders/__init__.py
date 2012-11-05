@@ -19,7 +19,6 @@ class SourceSpider(DjangoSpider):
     name = 'source'
 
     def __init__(self, *args, **kwargs):
-        # TODO: Override set_ref_object to allow source names
         self.kwargs = kwargs
         self._set_ref_object(WebSource, **kwargs)
         self.scraper = self.ref_object.scraper
@@ -29,24 +28,32 @@ class SourceSpider(DjangoSpider):
         self.scheduler_runtime = self.ref_object.scraper_runtime
         super(SourceSpider, self).__init__(self, *args, **kwargs)
 
+    def _set_ref_object(self, ref_object_class, **kwargs):
+        # TODO: allow searching by alias
+        super(SourceSpider, self)._set_ref_object(ref_object_class, **kwargs)
+        # for clarity
+        self.source = self.ref_object
+
     def parse_item(self, *args, **kwargs):
         item = super(SourceSpider, self).parse_item(*args, **kwargs)
-        import ipdb;ipdb.set_trace()
+        url_elem = self.scraper.get_detail_page_url_elem()
+        url_name = url_elem.scraped_obj_attr.name
+        # apply post processing to clean up the url
+        processed_url = self.source.process_url(item[url_name])
+        item[url_name] = processed_url
+        # check if the item is done being scraped
         if self.is_done_scraping(item):
             return item
-        try:
-            url_elem = self.scraper.get_detail_page_url_elem()
-            url_name = url_elem.scraped_obj_attr.name
-            return self.open_scraper_for(item, item[url_name])
-        except:
-            raise Exception("Figure out what to do in this case")
+        # if not, then open a new scraper for the processed url
+        self.log("openning scraper for %s" % processed_url)
+        self.open_scraper_for(item, processed_url)
+        return item
 
     def open_scraper_for(self, item, url):
         source = WebSource.objects.matching(url)
         # I. Reinitialize scraper
         self.kwargs.spargs.update(id=source.id)
         self.__init__(**self.kwargs)
-        return self
         # TODO: Get web source that matches scraped url
         # TODO: Either create new spider, or reinitialize this one
         # Test to see which is better

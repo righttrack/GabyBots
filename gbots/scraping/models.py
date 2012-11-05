@@ -2,8 +2,8 @@ from django.db import models
 from django.db.models import Manager
 from dynamic_scraper.models import Scraper, SchedulerRuntime
 from gbots.util import fields, loggers
+from gbots.scraping.processors import process
 import re
-
 
 logger = loggers.getLogger(__name__)
 
@@ -33,19 +33,20 @@ class SourceModel(models.Model):
 
 class WebSourceManager(Manager):
     def matching(self, url):
-        logger.log("finding matching sources...")
+        logger.info("finding matching source...")
         valid_sources = [source for source in self.exclude(pattern=u'')]
         matches = []
         for source in valid_sources:
-            logger.log("matching url %s with /%s/ for source '%s'..." % (url, source.pattern, source.alias))
+            logger.debug("[%s] matching url %s with /%s/" % (source.alias, url, source.pattern))
             if re.match(source.pattern, url):
-                logger.log("success")
+                logger.debug("[%s] success" % source.alias)
                 matches.append(source)
             else:
-                logger.log("failed")
+                logger.debug("[%s] failed" % source.alias)
         num = len(matches)
-        logger.log("found %d sources" % len(matches))
+        logger.debug("found %d source(s)" % len(matches))
         if num == 1:
+            logger.info("found source: '%s'" % matches[0].alias)
             return matches[0]
         if not num:
             raise self.model.DoesNotExist(
@@ -59,9 +60,18 @@ class WebSource(SourceModel):
     objects = WebSourceManager()
     url = models.URLField()
     pattern = models.CharField(blank=True, max_length=200)
+    # a simple string substitution field for now
+    url_processor = models.CharField(blank=True, max_length=200)
 
     def __unicode__(self):
         return self.description
+
+    def process_url(self, url):
+        if self.url_processor:
+            try:
+                return process(self.url_processor)
+            except Exception, e:
+                logger.error("could not parse url_processor '%s'" % self.url_processor)
 
 
 ##### Items ####
