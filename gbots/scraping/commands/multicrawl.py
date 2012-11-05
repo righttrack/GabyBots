@@ -2,7 +2,7 @@ from gbots.util import loggers
 from optparse import Values
 from scrapy.commands import crawl
 from scrapy.exceptions import UsageError
-from scraping.models import WebSource
+from gbots.scraping.models import WebSource
 
 __author__ = 'jeffmay'
 

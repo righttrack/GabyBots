@@ -1,4 +1,4 @@
-from scraping.news.spiders import ArticleSpider
+from gbots.scraping.news.spiders import ArticleSpider
 
 __author__ = 'jeffmay'
 
