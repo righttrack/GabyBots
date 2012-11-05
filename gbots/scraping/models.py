@@ -1,23 +1,11 @@
 from django.db import models
 from django.db.models import Manager
 from dynamic_scraper.models import Scraper, SchedulerRuntime
-from gbots.util import loggers
+from gbots.util import fields, loggers
 import re
 
 
 logger = loggers.getLogger(__name__)
-
-class WeakForeignKey(models.ForeignKey):
-    """
-    Loosly couple this to a foreign table to prevent cascading deletes, invalid ids, and to permit missing ids.
-    """
-    def __init__(self, *args, **kwargs):
-        kwargs.update(blank=True, null=True, on_delete=models.SET_NULL)
-        super(WeakForeignKey, self).__init__(*args, **kwargs)
-
-# Allow South to introspect these fields
-from south.modelsinspector import add_introspection_rules
-add_introspection_rules([], ["^gbots\.scraping\.models\.WeakForeignKey"])
 
 # Sample code to dynamically delete active scrapers when the scraper is deleted from the admin interface
 #@receiver(pre_delete)
@@ -36,8 +24,8 @@ add_introspection_rules([], ["^gbots\.scraping\.models\.WeakForeignKey"])
 class SourceModel(models.Model):
     class Meta:
         abstract = True
-    scraper = WeakForeignKey(Scraper)
-    scraper_runtime = WeakForeignKey(SchedulerRuntime)
+    scraper = fields.WeakForeignKey(Scraper)
+    scraper_runtime = fields.WeakForeignKey(SchedulerRuntime)
     alias = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
 
@@ -81,7 +69,7 @@ class WebSource(SourceModel):
 class ScrapedItemModel(models.Model):
     class Meta:
         abstract = True
-    checker_runtime = WeakForeignKey(SchedulerRuntime)
+    checker_runtime = fields.WeakForeignKey(SchedulerRuntime)
     source = models.ForeignKey(WebSource)
 
 # Common list models
