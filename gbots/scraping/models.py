@@ -1,8 +1,11 @@
 from django.db import models
 from django.db.models import Manager
 from dynamic_scraper.models import Scraper, SchedulerRuntime
+from gbots.util import loggers
 import re
 
+
+logger = loggers.getLogger(__name__)
 
 class WeakForeignKey(models.ForeignKey):
     """
@@ -14,7 +17,7 @@ class WeakForeignKey(models.ForeignKey):
 
 # Allow South to introspect these fields
 from south.modelsinspector import add_introspection_rules
-add_introspection_rules([], ["^scraping\.models\.WeakForeignKey"])
+add_introspection_rules([], ["^gbots\.scraping\.models\.WeakForeignKey"])
 
 # Sample code to dynamically delete active scrapers when the scraper is deleted from the admin interface
 #@receiver(pre_delete)
@@ -42,9 +45,18 @@ class SourceModel(models.Model):
 
 class WebSourceManager(Manager):
     def matching(self, url):
-        matches = [source for source in self.exclude(pattern=u'')
-                   if re.match(source.pattern, url)]
+        logger.log("finding matching sources...")
+        valid_sources = [source for source in self.exclude(pattern=u'')]
+        matches = []
+        for source in valid_sources:
+            logger.log("matching url %s with /%s/ for source '%s'..." % (url, source.pattern, source.alias))
+            if re.match(source.pattern, url):
+                logger.log("success")
+                matches.append(source)
+            else:
+                logger.log("failed")
         num = len(matches)
+        logger.log("found %d sources" % len(matches))
         if num == 1:
             return matches[0]
         if not num:
