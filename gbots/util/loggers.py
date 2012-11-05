@@ -21,6 +21,9 @@ class CommonLogger(object):
     def debug(self, msg, level=logging.DEBUG, *args, **kwargs):
         self.log(msg, level, *args, **kwargs)
 
+    def info(self, msg, level=logging.INFO, *args, **kwargs):
+        self.log(msg, level, *args, **kwargs)
+
     def warning(self, msg, level=logging.WARNING, *args, **kwargs):
         self.log(msg, level, *args, **kwargs)
 
