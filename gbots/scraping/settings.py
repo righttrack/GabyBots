@@ -40,7 +40,6 @@ USER_AGENT = '%s/%s' % (BOT_NAME, BOT_VERSION)
 
 ITEM_PIPELINES = [
     'dynamic_scraper.pipelines.ValidationPipeline',
-    'scraping.news.pipelines.metrics.CountTargets',
 #    'scraping.news.pipelines.DjangoWriterPipeline',
 ]
 
