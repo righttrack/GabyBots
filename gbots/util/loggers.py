@@ -16,7 +16,7 @@ class CommonLogger(object):
         if scrapy_log.started is False:
             scrapy_log.start()
         scrapy_log.msg(msg, level=level, **kwargs)
-        self._django_logger(level, msg, *args, **kwargs)
+        self._django_logger.log(level, msg, *args, **kwargs)
 
     def debug(self, msg, level=logging.DEBUG, *args, **kwargs):
         self.log(msg, level, *args, **kwargs)
