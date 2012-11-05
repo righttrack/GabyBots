@@ -11,8 +11,8 @@ class Migration(SchemaMigration):
         # Adding model 'WebSource'
         db.create_table('scraping_websource', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('scraper', self.gf('gbots.scraping.models.WeakForeignKey')(to=orm['dynamic_scraper.Scraper'], null=True, on_delete=models.SET_NULL, blank=True)),
-            ('scraper_runtime', self.gf('gbots.scraping.models.WeakForeignKey')(to=orm['dynamic_scraper.SchedulerRuntime'], null=True, on_delete=models.SET_NULL, blank=True)),
+            ('scraper', self.gf('gbots.util.fields.WeakForeignKey')(to=orm['dynamic_scraper.Scraper'], null=True, on_delete=models.SET_NULL, blank=True)),
+            ('scraper_runtime', self.gf('gbots.util.fields.WeakForeignKey')(to=orm['dynamic_scraper.SchedulerRuntime'], null=True, on_delete=models.SET_NULL, blank=True)),
             ('alias', self.gf('django.db.models.fields.CharField')(max_length=20)),
             ('description', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
@@ -47,7 +47,7 @@ class Migration(SchemaMigration):
         # Adding model 'BaseItemModel'
         db.create_table('scraping_baseitemmodel', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('checker_runtime', self.gf('gbots.scraping.models.WeakForeignKey')(to=orm['dynamic_scraper.SchedulerRuntime'], null=True, on_delete=models.SET_NULL, blank=True)),
+            ('checker_runtime', self.gf('gbots.util.fields.WeakForeignKey')(to=orm['dynamic_scraper.SchedulerRuntime'], null=True, on_delete=models.SET_NULL, blank=True)),
             ('source', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['scraping.WebSource'])),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
@@ -138,7 +138,7 @@ class Migration(SchemaMigration):
         },
         'scraping.baseitemmodel': {
             'Meta': {'object_name': 'BaseItemModel'},
-            'checker_runtime': ('gbots.scraping.models.WeakForeignKey', [], {'to': "orm['dynamic_scraper.SchedulerRuntime']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
+            'checker_runtime': ('gbots.util.fields.WeakForeignKey', [], {'to': "orm['dynamic_scraper.SchedulerRuntime']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'source': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['scraping.WebSource']"}),
@@ -163,8 +163,8 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'pattern': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
-            'scraper': ('gbots.scraping.models.WeakForeignKey', [], {'to': "orm['dynamic_scraper.Scraper']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
-            'scraper_runtime': ('gbots.scraping.models.WeakForeignKey', [], {'to': "orm['dynamic_scraper.SchedulerRuntime']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
+            'scraper': ('gbots.util.fields.WeakForeignKey', [], {'to': "orm['dynamic_scraper.Scraper']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
+            'scraper_runtime': ('gbots.util.fields.WeakForeignKey', [], {'to': "orm['dynamic_scraper.SchedulerRuntime']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
         }
     }

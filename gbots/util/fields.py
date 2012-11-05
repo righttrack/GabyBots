@@ -12,7 +12,7 @@ class WeakForeignKey(models.ForeignKey):
 
 # Allow South to introspect these fields
 from south.modelsinspector import add_introspection_rules
-add_introspection_rules([], ["^gbots\.scraping\.models\.WeakForeignKey"])
+add_introspection_rules([], ["^gbots\.util\.fields\.WeakForeignKey"])
 
 #class ListField(models.ForeignKey):
 #    def __init__(self, factory):
