@@ -44,15 +44,16 @@ class SourceSpider(DjangoSpider):
         # check if the item is done being scraped
         if self.is_done_scraping(item):
             return item
-        # if not, then open a new scraper for the processed url
-        self.log("openning scraper for %s" % processed_url)
-        self.open_scraper_for(item, processed_url)
-        return item
+        else:
+            # open a new scraper for the processed url
+            self.log("openning scraper for %s" % processed_url)
+            self.open_scraper_for(item, processed_url)
+            return item
 
     def open_scraper_for(self, item, url):
         source = WebSource.objects.matching(url)
         # I. Reinitialize scraper
-        self.kwargs.spargs.update(id=source.id)
+        self.kwargs["id"] = source.id
         self.__init__(**self.kwargs)
         # TODO: Get web source that matches scraped url
         # TODO: Either create new spider, or reinitialize this one

@@ -33,16 +33,14 @@ class SourceModel(models.Model):
 
 class WebSourceManager(Manager):
     def matching(self, url):
-        logger.info("finding matching source...")
+        logger.info("finding matching source for (%s)..." % (url))
         valid_sources = [source for source in self.exclude(pattern=u'')]
         matches = []
         for source in valid_sources:
-            logger.debug("[%s] matching url %s with /%s/" % (source.alias, url, source.pattern))
+            logger.debug("[%s] matching url (%s) with /%s/" % (source.alias, url, source.pattern))
             if re.match(source.pattern, url):
-                logger.debug("[%s] success" % source.alias)
+                logger.debug("[%s] found match!" % source.alias)
                 matches.append(source)
-            else:
-                logger.debug("[%s] failed" % source.alias)
         num = len(matches)
         logger.debug("found %d source(s)" % len(matches))
         if num == 1:
@@ -69,9 +67,10 @@ class WebSource(SourceModel):
     def process_url(self, url):
         if self.url_processor:
             try:
-                return process(self.url_processor)
+                return process(self.url_processor, url)
             except Exception, e:
-                logger.error("could not parse url_processor '%s'" % self.url_processor)
+                logger.error("could not parse url_processor '%s': %s" % (self.url_processor, e))
+                raise e
 
 
 ##### Items ####
