@@ -31,11 +31,11 @@ os.chdir(PROJECT_ROOT)
 #     http://doc.scrapy.org/topics/settings.html
 #
 
-BOT_NAME = 'gbot'
+BOT_NAME = 'gbots.scraping.news'
 BOT_VERSION = '1.0'
 
 SPIDER_MODULES = ['dynamic_scraper.spiders', 'gbots.scraping.news.spiders']
-NEWSPIDER_MODULE = 'gbots.scraping.news.spiders'
+NEWSPIDER_MODULE = 'gbots.scraping.news'
 USER_AGENT = '%s/%s' % (BOT_NAME, BOT_VERSION)
 
 ITEM_PIPELINES = [

@@ -59,7 +59,8 @@ class SourceSpider(DjangoSpider):
         # TODO: Either create new spider, or reinitialize this one
         # Test to see which is better
         # Open matching django spider here instead of reusing the same spider?
-#        return Request(url, self.process_item, meta={'item': item})
+
+    #        return Request(url, self.process_item, meta={'item': item})
 
     def is_done_scraping(self, item):
         # Always retrieve a source for this item
@@ -93,5 +94,3 @@ class ArticleSpider(SourceSpider):
     def clean_description(self, article):
         soup = BeautifulSoup(article['description'])
         return "\n".join(clean_control_chars(string) for string in soup.stripped_strings)
-
-
