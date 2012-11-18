@@ -28,7 +28,7 @@ After you clone the repository, enter the directory and perform the following se
 
 5. Add the default scrapers (you can use 'minimal' to create a database with no web sources)
 
-        $ ./manage.py loaddata initial_data
+        $ ./manage.py loaddata starter
 
 
 Running A Spider
