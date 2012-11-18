@@ -1,5 +1,9 @@
 from gbots.settings import *
 
+NOSE_ARGS = [
+    '--with-fixture-bundling',
+]
+
 DATABASES = {
     'default': {
         # postgresql_psycopg2, postgresql, mysql, sqlite3 or oracle
