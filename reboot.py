@@ -16,7 +16,7 @@ from gbots.settings import PROJECT_ROOT
 setup_environ(settings)
 
 print '\nPROJECT_ROOT variable:' + PROJECT_ROOT
-print "./manage.py dumpdata scraping dynamic_scraper --indent=2 > " + PROJECT_ROOT + "/fixtures/starter.json\n"
+print "./manage.py dumpdata scraping dynamic_scraper --indent=2 > " + PROJECT_ROOT + "/gbots/scraping/starter.json\n"
 
 
 decision = raw_input('Overwrite fixture? yes/no: ')

@@ -3,7 +3,7 @@ from gbots.scraping.models import WebSource
 from gbots.tests import TestCase
 
 class GoogleNewsSourceSpiderTest(TestCase):
-    # fixtures = ['initial_data.json']  # initial_data.json is assumed by Django's TestCase
+    fixtures = ['starter.json']  # TODO: make a testing fixture when this becomes too big
 
     def testGoogleNewsHasArticleScraper(self):
         """
