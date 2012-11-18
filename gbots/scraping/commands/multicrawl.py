@@ -1,9 +1,12 @@
+from gbots.util import loggers
 from optparse import Values
 from scrapy.commands import crawl
 from scrapy.exceptions import UsageError
-from scraping.models import WebSource
+from gbots.scraping.models import WebSource
 
 __author__ = 'jeffmay'
+
+logger = loggers.getLogger(__name__)
 
 class Command(crawl.Command):
 
@@ -19,17 +22,17 @@ class Command(crawl.Command):
             super(Command, self).run(args, opts)
         else:
             # Get a list of web source names from the command line
-            names = []
-            if "names" in spargs:
-                names = spargs["names"].split()
-            if len(names) > 0:
-                sources = WebSource.objects.filter(command__in=names)
+            aliases = []
+            if "alias" in spargs:
+                aliases = spargs["alias"].split()
+            if len(aliases) > 0:
+                sources = WebSource.objects.filter(alias__in=aliases)
             else:
                 sources = WebSource.objects.all()
             # Process sources for required id argument
             if len(sources) == 0:
-                # Let the superclass deal with it
-                super(Command, self).run(args, opts)
+                raise UsageError("Could not find any sources matching alias(es): %s" % ', '.join(aliases))
+            logger.info("Found sources for aliases: %s" % ', '.join(aliases))
             for source in sources:
                 # Run the scraper on the sources
                 eachopts = Values(vars(opts))

@@ -1,3 +1,5 @@
+__author__ = 'jeffmay'
+
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -9,7 +11,6 @@ from scrapy.exceptions import DropItem
 from dynamic_scraper.models import SchedulerRuntime
 
 class DjangoWriterPipeline(object):
-
     def process_item(self, item, spider):
         try:
             # This name must match Article's source
@@ -28,3 +29,4 @@ class DjangoWriterPipeline(object):
             raise DropItem("Missing attribute.")
 
         return item
+

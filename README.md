@@ -26,9 +26,9 @@ After you clone the repository, enter the directory and perform the following se
         $ ./manage.py syncdb
         $ ./manage.py migrate
 
-5. Add a sample scraper
+5. Add the default scrapers (you can use 'minimal' to create a database with no web sources)
 
-        $ ./manage.py loaddata fixtures/starter.json
+        $ ./manage.py loaddata initial_data
 
 
 Running A Spider

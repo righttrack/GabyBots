@@ -127,12 +127,12 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     # Plugins
-    'django_nose',
-    'dynamic_scraper',
     'south',
+    'dynamic_scraper',
+    'django_nose',  # this needs to come after 'south'
     
     # Apps
-    'gbots.scraping'
+    'gbots.scraping',
 )
 
 # A sample logging configuration. The only tangible logging
