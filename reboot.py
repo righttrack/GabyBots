@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 'coleman'
 
 # TODO make this more Pythonic, avoid using os.system()
@@ -15,13 +17,15 @@ from gbots.settings import PROJECT_ROOT
 
 setup_environ(settings)
 
+INITIAL_DATA = "gbots/scraping/fixtures/starter.json"
+
 print '\nPROJECT_ROOT variable:' + PROJECT_ROOT
-print "./manage.py dumpdata scraping dynamic_scraper --indent=2 > " + PROJECT_ROOT + "/gbots/scraping/starter.json\n"
+print "./manage.py dumpdata scraping dynamic_scraper --indent=2 > " + PROJECT_ROOT + "/" + INITIAL_DATA + "\n"
 
 
 decision = raw_input('Overwrite fixture? yes/no: ')
 if decision == 'yes' or '':
-    os.system(PROJECT_ROOT + "/manage.py dumpdata scraping dynamic_scraper --indent=2 > " + PROJECT_ROOT + "/fixtures/starter.json")
+    os.system(PROJECT_ROOT + "/manage.py dumpdata scraping dynamic_scraper --indent=2 > " + PROJECT_ROOT + "/" + INITIAL_DATA)
 else:
     print 'Latest database not saved to fixture.\n'
 
@@ -34,7 +38,7 @@ os.system(PROJECT_ROOT + "/manage.py migrate")
 
 # load the fixtures. This will have ALL our scrapers.
 print '\nLoading the fixtures. These are our scrapers.'
-os.system(PROJECT_ROOT + "/manage.py loaddata ./fixtures/starter.json")
+os.system(PROJECT_ROOT + "/manage.py loaddata " + PROJECT_ROOT + "/" + INITIAL_DATA)
 
 
 
