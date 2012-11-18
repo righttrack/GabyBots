@@ -44,3 +44,6 @@ ITEM_PIPELINES = [
 ]
 
 COMMANDS_MODULE = 'gbots.scraping.commands'
+
+# Custom command settings
+SAMPLE_WEB_ROOT = os.path.join(PROJECT_ROOT, 'sample', 'web')

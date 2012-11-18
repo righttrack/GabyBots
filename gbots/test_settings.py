@@ -2,6 +2,7 @@ from gbots.settings import *
 
 NOSE_ARGS = [
     '--with-fixture-bundling',
+#    '--with-doctest',  # disabled because this causes the tests to take WAY to long
 ]
 
 DATABASES = {
